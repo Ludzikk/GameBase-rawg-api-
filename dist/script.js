@@ -22,7 +22,7 @@ const getGamesData = () => {
 			allGames.push(...data.results);
 			createGamesBoxes();
 			addMoreGames();
-			console.log(allGames[2]);
+			// console.lcog(allGames[2]);
 			isLoadingMoreGames = false;
 		})
 		.catch((error) => console.error("Error:", error));
@@ -30,43 +30,46 @@ const getGamesData = () => {
 
 function changeImageOfItem() {
 	const idOfGame = this.parentElement.parentElement.parentElement.id;
+	const imageLink = allGames[idOfGame].short_screenshots[this.id].image;
+	const imageLinkSmaller =
+		imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
 	const gameImg = document.createElement("img");
 	gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
 	gameImg.setAttribute("alt", allGames[idOfGame].name);
-	gameImg.setAttribute(
-		"src",
-		allGames[idOfGame].short_screenshots[this.id].image
-	);
+	gameImg.setAttribute("src", imageLinkSmaller);
 
 	const imgBox = this.parentElement.parentElement.lastElementChild;
 	const childrenAmount = imgBox.children.length;
 
 	for (let i = 0; i < childrenAmount; i++) {
-		imgBox.innerHTML = "";
-		// imgBox.children[i].classList.add("hidden");
+		// imgBox.innerHTML = "";
+		imgBox.children[i].classList.add("hidden");
 	}
 
-	imgBox.append(gameImg);
-	// imgBox.children[this.id].classList.remove("hidden");
+	// imgBox.append(gameImg);
+	imgBox.children[this.id].classList.remove("hidden");
 }
 
 function setBackImg() {
 	const idOfGame = this.parentElement.parentElement.id;
-	const gameImg = document.createElement("img");
-	gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
-	gameImg.setAttribute("alt", allGames[idOfGame].name);
-	gameImg.setAttribute("src", allGames[idOfGame].short_screenshots[0].image);
+	// const imageLink = allGames[idOfGame].short_screenshots[this.id].image;
+	// const imageLinkSmaller =
+	// 	imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
+	// const gameImg = document.createElement("img");
+	// gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
+	// gameImg.setAttribute("alt", allGames[idOfGame].name);
+	// gameImg.setAttribute("src", imageLinkSmaller);
 
 	const imgBox = this.parentElement.lastElementChild;
 	const childrenAmount = imgBox.children.length;
 
 	for (let i = 0; i < childrenAmount; i++) {
-		imgBox.innerHTML = "";
-		// imgBox.children[i].classList.add("hidden");
+		// imgBox.innerHTML = "";
+		imgBox.children[i].classList.add("hidden");
 	}
 
-	imgBox.append(gameImg);
-	// imgBox.children[0].classList.remove("hidden");
+	// imgBox.append(gameImg);
+	imgBox.children[0].classList.remove("hidden");
 }
 
 function showListOfGame() {
@@ -94,13 +97,13 @@ function showListOfGame() {
 
 	for (let i = 0; i < genresAmount; i++) {
 		const genresText = document.createElement("span");
-		genresText.classList.add("text-white")
+		genresText.classList.add("text-white");
 
 		if (genresAmount > 1 && i + 1 - genresAmount !== 0) {
 			genresText.textContent = allGames[this.id].genres[i].name + ", ";
 		} else {
 			genresText.textContent = allGames[this.id].genres[i].name;
-		} 
+		}
 
 		genresBox.append(genresText);
 	}
@@ -130,12 +133,15 @@ const createGamesBoxes = () => {
 		const gameInfoBoxTop = document.createElement("div");
 		const gameName = document.createElement("p");
 		const gameMetacritics = document.createElement("p");
-		const gameImg = document.createElement("img");
+		// const gameImg = document.createElement("img");
 		const gameList = document.createElement("ul");
 
 		const gameNameData = games[0][i].name;
 		const gameMetacriticsData = games[0][i].metacritic;
 		const amountOfScreenshots = games[0][i].short_screenshots.length;
+		// const imageLink = games[0][i].short_screenshots[0].image;
+		// const imageLinkSmaller =
+		// 	imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
 
 		let criticsColor = "";
 
@@ -204,10 +210,10 @@ const createGamesBoxes = () => {
 			"text-sm",
 			"ml-4"
 		);
-		gameImg.classList.add("h-[165px]", "w-full", "object-cover");
+		// gameImg.classList.add("h-[165px]", "w-full", "object-cover");
 
-		gameImg.setAttribute("alt", gameNameData);
-		gameImg.setAttribute("src", games[0][i].short_screenshots[0].image);
+		// gameImg.setAttribute("alt", gameNameData);
+		// gameImg.setAttribute("src", imageLinkSmaller);
 
 		gameName.textContent = gameNameData;
 		gameMetacritics.textContent = gameMetacriticsData;
@@ -234,6 +240,20 @@ const createGamesBoxes = () => {
 			const gameImageHover = document.createElement("div");
 			const gameImageHoverElement = document.createElement("div");
 
+			const imageLink = games[0][i].short_screenshots[j].image;
+		const imageLinkSmaller =
+			imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
+
+			const gameImg = document.createElement("img");
+			if(j !== 0) {
+				gameImg.classList.add("h-[165px]", "w-full", "object-cover", "hidden");
+			} else {
+				gameImg.classList.add("h-[165px]", "w-full", "object-cover");
+			}
+
+			gameImg.setAttribute("alt", gameNameData);
+		gameImg.setAttribute("src", imageLinkSmaller);
+
 			gameImageHover.classList.add(
 				"w-full",
 				"h-full",
@@ -255,6 +275,8 @@ const createGamesBoxes = () => {
 
 			gameImageHover.append(gameImageHoverElement);
 			gameImgBoxOther.append(gameImageHover);
+
+			gameImgBoxInside.append(gameImg);
 		}
 
 		const newImageChangers =
@@ -267,7 +289,7 @@ const createGamesBoxes = () => {
 		gameBox.addEventListener("mouseover", showListOfGame);
 		gameBox.addEventListener("mouseout", hideListOfGame);
 
-		gameImgBoxInside.append(gameImg);
+		// gameImgBoxInside.append(gameImg);
 		gameImgBox.append(gameImgBoxOther, gameImgBoxInside);
 		gameInfoBoxTop.append(gameName, gameMetacritics);
 		gameInfoBox.append(gameInfoBoxTop);
