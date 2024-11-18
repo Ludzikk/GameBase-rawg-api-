@@ -727,6 +727,11 @@ video {
   clear: none;
 }
 
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -742,9 +747,8 @@ video {
   margin-bottom: 2rem;
 }
 
-.mx-1 {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .ml-4 {
@@ -753,18 +757,6 @@ video {
 
 .mt-2 {
   margin-top: 0.5rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
-.mb-3 {
-  margin-bottom: 0.75rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
 }
 
 .box-border {
@@ -866,28 +858,16 @@ video {
   display: none;
 }
 
-.h-\[10px\] {
-  height: 10px;
+.h-\[8px\] {
+  height: 8px;
 }
 
 .h-full {
   height: 100%;
 }
 
-.h-\[8px\] {
-  height: 8px;
-}
-
 .max-h-\[165px\] {
   max-height: 165px;
-}
-
-.max-h-\[200px\] {
-  max-height: 200px;
-}
-
-.max-h-\[250px\] {
-  max-height: 250px;
 }
 
 .w-\[100\%\] {
@@ -1919,38 +1899,13 @@ video {
   background-color: rgb(30 64 175 / var(--tw-bg-opacity, 1));
 }
 
-.bg-slate-600\/50 {
-  background-color: rgb(71 85 105 / 0.5);
+.bg-gray-500\/70 {
+  background-color: rgb(107 114 128 / 0.7);
 }
 
 .bg-zinc-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
-}
-
-.bg-white\/50 {
-  background-color: rgb(255 255 255 / 0.5);
-}
-
-.bg-white\/80 {
-  background-color: rgb(255 255 255 / 0.8);
-}
-
-.bg-gray-800\/80 {
-  background-color: rgb(31 41 55 / 0.8);
-}
-
-.bg-gray-500\/80 {
-  background-color: rgb(107 114 128 / 0.8);
-}
-
-.bg-gray-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
-}
-
-.bg-gray-500\/70 {
-  background-color: rgb(107 114 128 / 0.7);
 }
 
 .bg-gradient-to-r {
@@ -2357,10 +2312,6 @@ video {
   opacity: 0;
 }
 
-.opacity-100 {
-  opacity: 1;
-}
-
 .bg-blend-normal {
   background-blend-mode: normal;
 }
@@ -2763,36 +2714,12 @@ video {
   text-align: center;
 }
 
-.hover\:first\:bg-gray-300:first-child:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
-}
-
 .focus\:hover\:text-center:hover:focus {
   text-align: center;
 }
 
 .hover\:focus\:text-center:focus:hover {
   text-align: center;
-}
-
-.group:hover .group-hover\:bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
-}
-
-.group:hover .group-hover\:bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
-}
-
-.group:hover .group-hover\:bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.group:hover .group-hover\:bg-white\/70 {
-  background-color: rgb(255 255 255 / 0.7);
 }
 
 .group\/item:hover .group-hover\/item\:bg-white\/70 {
