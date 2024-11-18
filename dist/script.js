@@ -1,7 +1,7 @@
 const apiKey = "3cf9718a9cd54e70b5dd20d4ca11fda5";
 let allGames = [];
 let games = [];
-const gamesPerPage = 20;
+const gamesPerPage = 10;
 let currentPage = 1;
 let isLoadingMoreGames = false;
 let imageChangers = [];
@@ -22,6 +22,7 @@ const getGamesData = () => {
 			allGames.push(...data.results);
 			createGamesBoxes();
 			addMoreGames();
+			console.log(allGames[2]);
 			isLoadingMoreGames = false;
 		})
 		.catch((error) => console.error("Error:", error));
@@ -30,7 +31,7 @@ const getGamesData = () => {
 function changeImageOfItem() {
 	const idOfGame = this.parentElement.parentElement.parentElement.id;
 	const gameImg = document.createElement("img");
-	gameImg.classList.add("h-full", "w-full", "object-cover");
+	gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
 	gameImg.setAttribute("alt", allGames[idOfGame].name);
 	gameImg.setAttribute(
 		"src",
@@ -52,7 +53,7 @@ function changeImageOfItem() {
 function setBackImg() {
 	const idOfGame = this.parentElement.parentElement.id;
 	const gameImg = document.createElement("img");
-	gameImg.classList.add("h-full", "w-full", "object-cover");
+	gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
 	gameImg.setAttribute("alt", allGames[idOfGame].name);
 	gameImg.setAttribute("src", allGames[idOfGame].short_screenshots[0].image);
 
@@ -68,6 +69,55 @@ function setBackImg() {
 	// imgBox.children[0].classList.remove("hidden");
 }
 
+function showListOfGame() {
+	const releaseDate = document.createElement("li");
+	const genres = document.createElement("li");
+	const pName = document.createElement("p");
+	const genresBox = document.createElement("div");
+	const genresAmount = allGames[this.id].genres.length;
+	const gameList = this.lastElementChild;
+
+	// gameList.classList.add("absolute")
+
+	pName.classList.add(
+		"flex",
+		"justify-between",
+		"items-center",
+		"px-3",
+		"py-2",
+		"text-gray-400"
+	);
+	pName.textContent = "Genres:";
+	releaseDate.innerHTML = `<p class="flex justify-between items-center px-3 py-2 text-gray-400 border-b border-gray-600/60">Release date:  <span class="text-white">${
+		allGames[this.id].released
+	}</span></p>`;
+
+	for (let i = 0; i < genresAmount; i++) {
+		const genresText = document.createElement("span");
+		genresText.classList.add("text-white")
+
+		if (genresAmount > 1 && i + 1 - genresAmount !== 0) {
+			genresText.textContent = allGames[this.id].genres[i].name + ", ";
+		} else {
+			genresText.textContent = allGames[this.id].genres[i].name;
+		} 
+
+		genresBox.append(genresText);
+	}
+
+	if (gameList.children.length === 0) {
+		pName.append(genresBox);
+		genres.append(pName);
+		gameList.append(releaseDate, genres);
+	}
+}
+
+function hideListOfGame() {
+	const gameList = this.lastElementChild;
+
+	gameList.innerHTML = "";
+}
+
 const createGamesBoxes = () => {
 	const gamesLength = games[0].length;
 
@@ -81,6 +131,7 @@ const createGamesBoxes = () => {
 		const gameName = document.createElement("p");
 		const gameMetacritics = document.createElement("p");
 		const gameImg = document.createElement("img");
+		const gameList = document.createElement("ul");
 
 		const gameNameData = games[0][i].name;
 		const gameMetacriticsData = games[0][i].metacritic;
@@ -117,7 +168,9 @@ const createGamesBoxes = () => {
 			"shadow-black",
 			"hover:scale-[1.025]",
 			"transition-all",
-			"duration-300"
+			"duration-300",
+			"gameItem",
+			"relative"
 		);
 		gameImgBox.classList.add(
 			"w-full",
@@ -135,14 +188,15 @@ const createGamesBoxes = () => {
 			"opacity-0",
 			"group-hover:opacity-100"
 		);
-		gameImgBoxInside.classList.add("h-full");
+		gameList.classList.add("flex", "flex-col");
+		gameImgBoxInside.classList.add("h-full", "max-h-[165px]");
 		gameInfoBoxTop.classList.add(
 			"p-3",
 			"flex",
 			"justify-between",
 			"items-center"
 		);
-		gameName.classList.add("font-bold", "text-lg");
+		gameName.classList.add("font-bold", "text-xl", "py-4");
 		gameMetacritics.classList.add(
 			"border",
 			"px-2",
@@ -150,7 +204,7 @@ const createGamesBoxes = () => {
 			"text-sm",
 			"ml-4"
 		);
-		gameImg.classList.add("h-full", "w-full", "object-cover");
+		gameImg.classList.add("h-[165px]", "w-full", "object-cover");
 
 		gameImg.setAttribute("alt", gameNameData);
 		gameImg.setAttribute("src", games[0][i].short_screenshots[0].image);
@@ -203,21 +257,21 @@ const createGamesBoxes = () => {
 			gameImgBoxOther.append(gameImageHover);
 		}
 
-		const newImageChangers = gameImgBoxOther.querySelectorAll(".imgItemChanger");
+		const newImageChangers =
+			gameImgBoxOther.querySelectorAll(".imgItemChanger");
 		newImageChangers.forEach((item) => {
+			item.removeEventListener("mouseover", changeImageOfItem);
 			item.addEventListener("mouseover", changeImageOfItem);
 		});
-		imageChangers.forEach((item) => {
-			item.addEventListener("mouseover", changeImageOfItem);
-		});
-		gameImgBoxOther.removeEventListener("mouseout", setBackImg);
 		gameImgBoxOther.addEventListener("mouseout", setBackImg);
+		gameBox.addEventListener("mouseover", showListOfGame);
+		gameBox.addEventListener("mouseout", hideListOfGame);
 
 		gameImgBoxInside.append(gameImg);
 		gameImgBox.append(gameImgBoxOther, gameImgBoxInside);
 		gameInfoBoxTop.append(gameName, gameMetacritics);
 		gameInfoBox.append(gameInfoBoxTop);
-		gameBox.append(gameImgBox, gameInfoBox);
+		gameBox.append(gameImgBox, gameInfoBox, gameList);
 		gamesList.appendChild(gameBox);
 	}
 
