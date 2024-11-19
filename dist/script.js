@@ -163,6 +163,7 @@ const createGamesBoxes = () => {
 		);
 		pName.textContent = "Genres:";
 		releaseDate.innerHTML = `<p class="flex justify-between items-center px-3 py-2 text-gray-400 border-b border-gray-600/60">Release date:  <span class="text-white">${games[0][i].released}</span></p>`;
+		// genresBox.classList.add("flex", "justify-end")
 
 		gameName.textContent = gameNameData;
 		gameMetacritics.textContent = gameMetacriticsData;
