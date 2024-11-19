@@ -98,7 +98,7 @@ const createGamesBoxes = () => {
 		gameBox.classList.add(
 			"sm:w-[calc(50%-16px)]",
 			"lg:w-[calc(33%-16px)]",
-			"2xl:w-[calc(20%-16px)]",
+			"2xl:w-[calc(25%-16px)]",
 			"w-full",
 			"rounded-2xl",
 			"bg-zinc-800",
