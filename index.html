@@ -20,28 +20,40 @@
     </nav>
 
     <main class="">
-        <ul id="gamesList" class="flex flex-wrap justify-center items-start text-white gap-4 relative">
-            <div id="loadingScreen" class="absolute top-0 left-0 w-full h-full bg-black z-50"></div>
-            <!-- <li
-                class="sm:w-[calc(50%-16px)] lg:w-[calc(33%-16px)] 2xl:w-[calc(20%-16px)] w-full rounded-2xl overflow-hidden bg-zinc-800">
-                <div class="w-full max-h-[165px] h-full relative group">
-                    <div class="absolute w-full h-full flex justify-center opacity-0 group-hover:opacity-100">
-                        <div class="w-full h-full flex items-end group/item imgItemChanger" id="0">
-                            <div class="h-[8px] w-[100%] mb-2 mx-4 bg-gray-500/70 group-hover/item:bg-white/70"></div>
-                        </div>
+        <h1 class="text-7xl py-8 px-6 text-white font-bold tracking-wide">All games</h1>
+        <div class="flex">
+            <div class="w-[200px] pl-6">
+                <a href="#" class="text-2xl text-white font-bold block py-2 my-3 hover:text-gray-500 transition-all duration-300">Home</a>
+                <a href="#" class="text-2xl text-white font-bold block py-2 my-3 hover:text-gray-500 transition-all duration-300">Reviews</a>
+                <p class="text-2xl text-white font-bold block py-2 my-3">New Releases</p>
+                <ul>
+                    <li>
+                        <a href="#" class="text-lg text-white block py-2 my-3">Last 30 days</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-lg text-white block py-2 my-3">This week</a>
+                    </li>
+                </ul>
+                <p class="text-2xl text-white font-bold block py-2 my-3">Top</p>
+                <ul>
+                    <li>
+                        <a href="#" class="text-lg text-white block py-2 my-3">Best of the year</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-lg text-white block py-2 my-3">Popular in 2023</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-[100%]">
+                <ul id="gamesList" class="flex flex-wrap justify-center items-start text-white gap-4 relative">
+                    <div id="loadingScreen" class="w-full h-[300px] z-50 flex justify-center items-center">
+                        <div class="loader"></div>
                     </div>
-                    <div class="h-full">
-                        <img src="https://media.rawg.io/media/games/20a/20aa03a10cda45239fe22d035c0ebe64.jpg" alt=""
-                            class="h-full w-full object-cover">
-                    </div>
-                </div>
-                <div class="p-3 flex justify-between items-center">
-                    <p>Grand Theft Auto V</p>
-                    <p class="text-green-300 border border-green-300 px-2 rounded">94</p>
-                </div>
-            </li> -->
-        </ul>
-        <button class="text-xl text-white bg-blue-800 p-2 block mx-auto my-8" id="moreGames">see more</button>
+                </ul>
+                <button class="text-xl text-white bg-blue-800 p-2 block mx-auto my-8 rounded shadow-sm shadow-black"
+                    id="moreGames">see more</button>
+            </div>
+        </div>
     </main>
 
     <script src="./dist/script.js"></script>

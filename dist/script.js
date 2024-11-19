@@ -22,103 +22,35 @@ const getGamesData = () => {
 			allGames.push(...data.results);
 			createGamesBoxes();
 			addMoreGames();
-			// console.lcog(allGames[2]);
 			isLoadingMoreGames = false;
 		})
 		.catch((error) => console.error("Error:", error));
 };
 
-function changeImageOfItem() {
-	const idOfGame = this.parentElement.parentElement.parentElement.id;
-	const imageLink = allGames[idOfGame].short_screenshots[this.id].image;
-	const imageLinkSmaller =
-		imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
-	const gameImg = document.createElement("img");
-	gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
-	gameImg.setAttribute("alt", allGames[idOfGame].name);
-	gameImg.setAttribute("src", imageLinkSmaller);
+const hideAllImagesOfGameItem = (imgBox) => {
+	const imagesAmount = imgBox.children.length;
 
-	const imgBox = this.parentElement.parentElement.lastElementChild;
-	const childrenAmount = imgBox.children.length;
-
-	for (let i = 0; i < childrenAmount; i++) {
-		// imgBox.innerHTML = "";
+	for (let i = 0; i < imagesAmount; i++) {
 		imgBox.children[i].classList.add("hidden");
 	}
+};
 
-	// imgBox.append(gameImg);
+function changeImageOfItem() {
+	const imgBox = this.parentElement.parentElement.lastElementChild;
+	hideAllImagesOfGameItem(imgBox);
 	imgBox.children[this.id].classList.remove("hidden");
 }
 
 function setBackImg() {
-	const idOfGame = this.parentElement.parentElement.id;
-	// const imageLink = allGames[idOfGame].short_screenshots[this.id].image;
-	// const imageLinkSmaller =
-	// 	imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
-	// const gameImg = document.createElement("img");
-	// gameImg.classList.add("h-[165px]", "w-full", "object-cover", "max-h-[165px]");
-	// gameImg.setAttribute("alt", allGames[idOfGame].name);
-	// gameImg.setAttribute("src", imageLinkSmaller);
-
 	const imgBox = this.parentElement.lastElementChild;
-	const childrenAmount = imgBox.children.length;
-
-	for (let i = 0; i < childrenAmount; i++) {
-		// imgBox.innerHTML = "";
-		imgBox.children[i].classList.add("hidden");
-	}
-
-	// imgBox.append(gameImg);
+	hideAllImagesOfGameItem(imgBox);
 	imgBox.children[0].classList.remove("hidden");
 }
 
-function showListOfGame() {
-	const releaseDate = document.createElement("li");
-	const genres = document.createElement("li");
-	const pName = document.createElement("p");
-	const genresBox = document.createElement("div");
-	const genresAmount = allGames[this.id].genres.length;
-	const gameList = this.lastElementChild;
-
-	// gameList.classList.add("absolute")
-
-	pName.classList.add(
-		"flex",
-		"justify-between",
-		"items-center",
-		"px-3",
-		"py-2",
-		"text-gray-400"
-	);
-	pName.textContent = "Genres:";
-	releaseDate.innerHTML = `<p class="flex justify-between items-center px-3 py-2 text-gray-400 border-b border-gray-600/60">Release date:  <span class="text-white">${
-		allGames[this.id].released
-	}</span></p>`;
-
-	for (let i = 0; i < genresAmount; i++) {
-		const genresText = document.createElement("span");
-		genresText.classList.add("text-white");
-
-		if (genresAmount > 1 && i + 1 - genresAmount !== 0) {
-			genresText.textContent = allGames[this.id].genres[i].name + ", ";
-		} else {
-			genresText.textContent = allGames[this.id].genres[i].name;
-		}
-
-		genresBox.append(genresText);
-	}
-
-	if (gameList.children.length === 0) {
-		pName.append(genresBox);
-		genres.append(pName);
-		gameList.append(releaseDate, genres);
-	}
-}
-
-function hideListOfGame() {
-	const gameList = this.lastElementChild;
-
-	gameList.innerHTML = "";
+function toggleListOfGame() {
+	this.lastElementChild.classList.toggle("hidden");
+	this.classList.toggle("rounded-b-none");
+	this.classList.toggle("z-20");
 }
 
 const createGamesBoxes = () => {
@@ -133,15 +65,16 @@ const createGamesBoxes = () => {
 		const gameInfoBoxTop = document.createElement("div");
 		const gameName = document.createElement("p");
 		const gameMetacritics = document.createElement("p");
-		// const gameImg = document.createElement("img");
 		const gameList = document.createElement("ul");
+		const releaseDate = document.createElement("li");
+		const genres = document.createElement("li");
+		const pName = document.createElement("p");
+		const genresBox = document.createElement("div");
 
+		const genresAmount = games[0][i].genres.length;
 		const gameNameData = games[0][i].name;
 		const gameMetacriticsData = games[0][i].metacritic;
 		const amountOfScreenshots = games[0][i].short_screenshots.length;
-		// const imageLink = games[0][i].short_screenshots[0].image;
-		// const imageLinkSmaller =
-		// 	imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
 
 		let criticsColor = "";
 
@@ -168,7 +101,6 @@ const createGamesBoxes = () => {
 			"2xl:w-[calc(20%-16px)]",
 			"w-full",
 			"rounded-2xl",
-			"overflow-hidden",
 			"bg-zinc-800",
 			"shadow-sm",
 			"shadow-black",
@@ -194,7 +126,18 @@ const createGamesBoxes = () => {
 			"opacity-0",
 			"group-hover:opacity-100"
 		);
-		gameList.classList.add("flex", "flex-col");
+		gameList.classList.add(
+			"absolute",
+			"z-50",
+			"w-full",
+			"bottom-[-81px]",
+			"left-0",
+			"rounded-b-2xl",
+			"bg-zinc-800",
+			"shadow-sm",
+			"shadow-black",
+			"hidden"
+		);
 		gameImgBoxInside.classList.add("h-full", "max-h-[165px]");
 		gameInfoBoxTop.classList.add(
 			"p-3",
@@ -210,10 +153,16 @@ const createGamesBoxes = () => {
 			"text-sm",
 			"ml-4"
 		);
-		// gameImg.classList.add("h-[165px]", "w-full", "object-cover");
-
-		// gameImg.setAttribute("alt", gameNameData);
-		// gameImg.setAttribute("src", imageLinkSmaller);
+		pName.classList.add(
+			"flex",
+			"justify-between",
+			"items-center",
+			"px-3",
+			"py-2",
+			"text-gray-400"
+		);
+		pName.textContent = "Genres:";
+		releaseDate.innerHTML = `<p class="flex justify-between items-center px-3 py-2 text-gray-400 border-b border-gray-600/60">Release date:  <span class="text-white">${games[0][i].released}</span></p>`;
 
 		gameName.textContent = gameNameData;
 		gameMetacritics.textContent = gameMetacriticsData;
@@ -241,18 +190,29 @@ const createGamesBoxes = () => {
 			const gameImageHoverElement = document.createElement("div");
 
 			const imageLink = games[0][i].short_screenshots[j].image;
-		const imageLinkSmaller =
-			imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
+			const imageLinkSmaller =
+				imageLink.slice(0, 28) + "crop/600/400/" + imageLink.slice(28);
 
 			const gameImg = document.createElement("img");
-			if(j !== 0) {
-				gameImg.classList.add("h-[165px]", "w-full", "object-cover", "hidden");
+			if (j !== 0) {
+				gameImg.classList.add(
+					"h-[165px]",
+					"w-full",
+					"object-cover",
+					"rounded-t-2xl",
+					"hidden"
+				);
 			} else {
-				gameImg.classList.add("h-[165px]", "w-full", "object-cover");
+				gameImg.classList.add(
+					"h-[165px]",
+					"w-full",
+					"object-cover",
+					"rounded-t-2xl"
+				);
 			}
 
 			gameImg.setAttribute("alt", gameNameData);
-		gameImg.setAttribute("src", imageLinkSmaller);
+			gameImg.setAttribute("src", imageLinkSmaller);
 
 			gameImageHover.classList.add(
 				"w-full",
@@ -279,6 +239,23 @@ const createGamesBoxes = () => {
 			gameImgBoxInside.append(gameImg);
 		}
 
+		for (let k = 0; k < genresAmount; k++) {
+			const genresText = document.createElement("span");
+			genresText.classList.add("text-white");
+
+			if (genresAmount > 1 && k + 1 - genresAmount !== 0) {
+				genresText.textContent = games[0][i].genres[k].name + ", ";
+			} else {
+				genresText.textContent = games[0][i].genres[k].name;
+			}
+
+			genresBox.append(genresText);
+		}
+
+		pName.append(genresBox);
+		genres.append(pName);
+		gameList.append(releaseDate, genres);
+
 		const newImageChangers =
 			gameImgBoxOther.querySelectorAll(".imgItemChanger");
 		newImageChangers.forEach((item) => {
@@ -286,10 +263,9 @@ const createGamesBoxes = () => {
 			item.addEventListener("mouseover", changeImageOfItem);
 		});
 		gameImgBoxOther.addEventListener("mouseout", setBackImg);
-		gameBox.addEventListener("mouseover", showListOfGame);
-		gameBox.addEventListener("mouseout", hideListOfGame);
+		gameBox.addEventListener("mouseover", toggleListOfGame);
+		gameBox.addEventListener("mouseout", toggleListOfGame);
 
-		// gameImgBoxInside.append(gameImg);
 		gameImgBox.append(gameImgBoxOther, gameImgBoxInside);
 		gameInfoBoxTop.append(gameName, gameMetacritics);
 		gameInfoBox.append(gameInfoBoxTop);
@@ -317,6 +293,7 @@ const addMoreGames = () => {
 
 const addEventListeners = () => {
 	window.addEventListener("scroll", addMoreGames);
+	seeMoreGames.addEventListener("click", addMoreGames)
 };
 
 addEventListeners();
