@@ -1,31 +1,57 @@
 const apiKey = "3cf9718a9cd54e70b5dd20d4ca11fda5";
 let allGames = [];
 let games = [];
-const gamesPerPage = 10;
+const gamesPerPage = 16;
 let currentPage = 1;
 let isLoadingMoreGames = false;
 let imageChangers = [];
 let currentCreatedItem = 0;
+
+const currentDate = new Date();
+const yearBackDate = new Date(currentDate);
+yearBackDate.setFullYear(yearBackDate.getFullYear() - 1);
+
+const currentYear = currentDate.getFullYear();
+const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
+const currentDay = String(currentDate.getDate()).padStart(2, "0");
+
+const yearBackYear = yearBackDate.getFullYear();
+const yearBackMonth = String(yearBackDate.getMonth() + 1).padStart(2, "0");
+const yearBackDay = String(yearBackDate.getDate()).padStart(2, "0");
+
+console.log(yearBackDate);
 
 const gamesList = document.querySelector("#gamesList");
 const loadingScreen = document.querySelector("#loadingScreen");
 const seeMoreGames = document.querySelector("#moreGames");
 
 const getGamesData = () => {
-	fetch(
-		`https://api.rawg.io/api/games?&key=${apiKey}&page=${currentPage}&page_size=${gamesPerPage}`
-	)
-		.then((res) => res.json())
-		.then((data) => {
-			games = [];
-			games.push(data.results);
-			allGames.push(...data.results);
-			createGamesBoxes();
-			addMoreGames();
-			isLoadingMoreGames = false;
-		})
-		.catch((error) => console.error("Error:", error));
+    fetch(
+        `https://api.rawg.io/api/games?dates=${yearBackYear}-${yearBackMonth}-${yearBackDay},${currentYear}-${currentMonth}-${currentDay}&ordering=-rating&key=${apiKey}&page=${currentPage}&page_size=${gamesPerPage}`
+    )
+        .then((res) => res.json())
+        .then((data) => {
+            // Filtruj gry, które mają co najmniej 50 recenzji (lub inny próg)
+            const filteredGames = data.results.filter((game) => game.ratings_count >= 50);
+
+            // Wyczyszczenie i aktualizacja listy gier
+            games = []; // Jeśli `games` ma być resetowane
+            games.push(filteredGames); // Dodanie przefiltrowanych gier do `games`
+            allGames.push(...filteredGames); // Dodanie do ogólnej listy `allGames`
+
+            // Funkcje do tworzenia i obsługi interfejsu
+            createGamesBoxes();
+            addMoreGames();
+
+            // Flaga ładowania
+            isLoadingMoreGames = false;
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            seeMoreGames.remove(); // Obsługa błędu
+        });
 };
+
 
 const hideAllImagesOfGameItem = (imgBox) => {
 	const imagesAmount = imgBox.children.length;
@@ -74,7 +100,11 @@ const createGamesBoxes = () => {
 		const genresAmount = games[0][i].genres.length;
 		const gameNameData = games[0][i].name;
 		const gameMetacriticsData = games[0][i].metacritic;
-		const amountOfScreenshots = games[0][i].short_screenshots.length;
+		let amountOfScreenshots = 0;
+
+		if (games[0][i].short_screenshots !== null) {
+			amountOfScreenshots = games[0][i].short_screenshots.length;
+		}
 
 		let criticsColor = "";
 
@@ -138,7 +168,7 @@ const createGamesBoxes = () => {
 			"shadow-black",
 			"hidden"
 		);
-		gameImgBoxInside.classList.add("h-full", "max-h-[165px]");
+		gameImgBoxInside.classList.add("h-[165px]");
 		gameInfoBoxTop.classList.add(
 			"p-3",
 			"flex",
@@ -294,7 +324,7 @@ const addMoreGames = () => {
 
 const addEventListeners = () => {
 	window.addEventListener("scroll", addMoreGames);
-	seeMoreGames.addEventListener("click", addMoreGames)
+	seeMoreGames.addEventListener("click", addMoreGames);
 };
 
 addEventListeners();
